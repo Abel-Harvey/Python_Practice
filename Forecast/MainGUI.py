@@ -8,6 +8,9 @@ import GetData
 
 
 class MainWindow:
+    """
+    该类绘制窗口，并将相关操作绑定到按钮上\n
+    """
     def __init__(self):
         self.app = wx.App(False)
         # False: 表示出错不在窗口显示
@@ -145,9 +148,6 @@ class MainWindow:
         self.show_f4.Show(False)
         # 未来天气的图形显示，默认关闭
 
-        # self.menubar = wx.MenuBar()
-        # self.btn_today = wx.Button(self.panel, 5, '重新查询', pos=(110, 120))
-        # self.btn_today.Bind(wx.EVT_BUTTON, self.get_query_status)
         self.window.Show(True)
         # 窗口显示
         self.app.MainLoop()
@@ -257,15 +257,6 @@ class MainWindow:
         # 关掉未来天气的相关信息
 
         e.Skip()
-
-    def today_info(self, e):
-        """
-        该函数仅调用今天的天气展示\n
-        :param e:event
-        :return:None
-        """
-        self.display(e, 1)
-        # 显示今日天气
 
     def fore_info(self, e):
         """
