@@ -1,7 +1,7 @@
 """
 author: abel
 date: 12-01-2020
-version: v0.1
+version: v0.2
 """
 import wx
 import GetData
@@ -51,12 +51,12 @@ class MainWindow:
         self.btn_refresh.Bind(wx.EVT_BUTTON, self.refresh)
         # 刷新按钮绑定
 
-        self.basic_data1 = wx.TextCtrl(self.panel, 6, pos=(180, 30), size=(150, 90),
+        self.basic_data1 = wx.TextCtrl(self.panel, 6, pos=(180, 30), size=(150, 120),
                                        style=(wx.TE_READONLY | wx.TE_MULTILINE))
         # 今日和昨天的基本天气显示框,默认关闭
         self.basic_data1.Show(False)
 
-        self.reminder_data = wx.TextCtrl(self.panel, 6, pos=(180, 125), size=(150, 90),
+        self.reminder_data = wx.TextCtrl(self.panel, 6, pos=(180, 140), size=(150, 90),
                                          style=(wx.TE_READONLY | wx.TE_MULTILINE))
         # 今日和昨天的提醒信息显示框，默认关闭
         self.reminder_data.Show(False)
@@ -338,7 +338,7 @@ class MainWindow:
 
         if flag == 1:
             # 1则代表today
-            self.window.SetSize(800, 420)
+            self.window.SetSize(500, 420)
             self.window.Centre()
             # 重置尺寸
 
@@ -346,7 +346,7 @@ class MainWindow:
             # 显示今天的信息
         if flag == 2:
             # 2则代表昨天
-            self.window.SetSize(800, 420)
+            self.window.SetSize(500, 420)
             self.window.Centre()
             # 重置尺寸
 
@@ -393,6 +393,8 @@ class MainWindow:
         self.basic_data1.AppendText('{}天气: '.format(self.info.city_name) + '\n')
         self.basic_data1.AppendText(self.info.today[0] + ': ')
         self.basic_data1.AppendText(self.info.today[1] + '\n')
+        self.basic_data1.AppendText('风向： ' + self.info.today[5] + '\n')
+        self.basic_data1.AppendText('风力： ' + self.info.today[9] + '\n')
         self.basic_data1.AppendText(self.info.today[2] + ': ')
         self.basic_data1.AppendText(self.info.today[3].replace('高温 ', '') + '\n')
         self.basic_data1.AppendText(self.info.today[6] + ': ')
@@ -438,10 +440,13 @@ class MainWindow:
         self.basic_data1.AppendText('{}天气: '.format(self.info.city_name) + '\n')
         self.basic_data1.AppendText(self.info.yesterday[0] + ': ')
         self.basic_data1.AppendText(self.info.yesterday[1] + '\n')
+        self.basic_data1.AppendText('风向： ' + self.info.yesterday[5] + '\n')
+        self.basic_data1.AppendText('风力： ' + self.info.yesterday[9] + '\n')
         self.basic_data1.AppendText(self.info.yesterday[2] + ': ')
         self.basic_data1.AppendText(self.info.yesterday[3].replace('高温 ', '') + '\n')
         self.basic_data1.AppendText(self.info.yesterday[6] + ': ')
         self.basic_data1.AppendText(self.info.yesterday[7].replace('低温 ', '') + '\n')
+
         # 添加相关信息
 
         self.reminder_data.Clear()
@@ -481,32 +486,32 @@ class MainWindow:
         self.basic_data_f1.AppendText('{} {}的天气： '.format(self.info.city_name, self.info.forecast[1]) + '\n')
         self.basic_data_f1.AppendText('风向： ' + self.info.forecast[5] + '\n')
         self.basic_data_f1.AppendText('风力： ' + self.info.forecast[9] + '\n')
-        self.basic_data_f1.AppendText('最高温度： ' + self.info.forecast[3] + '\n')
-        self.basic_data_f1.AppendText('最低温度： ' + self.info.forecast[7] + '\n')
+        self.basic_data_f1.AppendText('最高温度： ' + self.info.forecast[3].replace('高温 ', '') + '\n')
+        self.basic_data_f1.AppendText('最低温度： ' + self.info.forecast[7].replace('低温 ', '') + '\n')
         self.basic_data_f1.AppendText('天气类型： ' + self.info.forecast[11] + '\n')
         # 显示未来第一天的基本信息
 
         self.basic_data_f2.AppendText('{} {}的天气： '.format(self.info.city_name, self.info.forecast[13]) + '\n')
         self.basic_data_f2.AppendText('风向： ' + self.info.forecast[17] + '\n')
         self.basic_data_f2.AppendText('风力： ' + self.info.forecast[21] + '\n')
-        self.basic_data_f2.AppendText('最高温度： ' + self.info.forecast[15] + '\n')
-        self.basic_data_f2.AppendText('最低温度： ' + self.info.forecast[19] + '\n')
+        self.basic_data_f2.AppendText('最高温度： ' + self.info.forecast[15].replace('高温 ', '') + '\n')
+        self.basic_data_f2.AppendText('最低温度： ' + self.info.forecast[19].replace('低温 ', '') + '\n')
         self.basic_data_f2.AppendText('天气类型： ' + self.info.forecast[23] + '\n')
         # 显示未来第二天的基本信息
 
         self.basic_data_f3.AppendText('{} {}的天气： '.format(self.info.city_name, self.info.forecast[25]) + '\n')
         self.basic_data_f3.AppendText('风向： ' + self.info.forecast[29] + '\n')
         self.basic_data_f3.AppendText('风力： ' + self.info.forecast[33] + '\n')
-        self.basic_data_f3.AppendText('最高温度： ' + self.info.forecast[27] + '\n')
-        self.basic_data_f3.AppendText('最低温度： ' + self.info.forecast[31] + '\n')
+        self.basic_data_f3.AppendText('最高温度： ' + self.info.forecast[27].replace('高温 ', '') + '\n')
+        self.basic_data_f3.AppendText('最低温度： ' + self.info.forecast[31].replace('低温 ', '') + '\n')
         self.basic_data_f3.AppendText('天气类型： ' + self.info.forecast[35] + '\n')
         # 显示未来第三天的基本信息
 
         self.basic_data_f4.AppendText('{} {}的天气： '.format(self.info.city_name, self.info.forecast[37]) + '\n')
         self.basic_data_f4.AppendText('风向： ' + self.info.forecast[41] + '\n')
         self.basic_data_f4.AppendText('风力： ' + self.info.forecast[45] + '\n')
-        self.basic_data_f4.AppendText('最高温度： ' + self.info.forecast[39] + '\n')
-        self.basic_data_f4.AppendText('最低温度： ' + self.info.forecast[43] + '\n')
+        self.basic_data_f4.AppendText('最高温度： ' + self.info.forecast[39].replace('高温 ', '') + '\n')
+        self.basic_data_f4.AppendText('最低温度： ' + self.info.forecast[43].replace('低温 ', '') + '\n')
         self.basic_data_f4.AppendText('天气类型： ' + self.info.forecast[47] + '\n')
         # 显示未来第四天的基本信息
 
