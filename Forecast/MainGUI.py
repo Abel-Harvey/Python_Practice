@@ -4,6 +4,7 @@ date: 12-01-2020
 version: v0.2
 """
 import wx
+import re
 import GetData
 
 
@@ -11,6 +12,7 @@ class MainWindow:
     """
     该类绘制窗口，并将相关操作绑定到按钮上\n
     """
+
     def __init__(self):
         self.app = wx.App(False)
         # False: 表示出错不在窗口显示
@@ -26,7 +28,9 @@ class MainWindow:
 
         self.text_1 = wx.StaticText(self.panel, 2, '请输入正确的城市名: ', pos=(90, 20))
         # 提示性语句显示
-        self.text_city_name = wx.TextCtrl(self.panel, 2, pos=(90, 50), size=(124, 21))
+        self.text_city_name = wx.TextCtrl(self.panel, 2, pos=(90, 50), size=(124, 21), style=wx.TE_PROCESS_ENTER)
+        self.text_city_name.Bind(wx.EVT_TEXT_ENTER, self.get_query_status)
+        # 输入框绑定回车，回车直接调用查询函数
         # 输入框，将得到城市名字
         self.weather_type_text = wx.TextCtrl(self.panel, 2, pos=(350, 30), style=wx.TE_READONLY)
         self.weather_type_text.Show(False)
@@ -124,16 +128,16 @@ class MainWindow:
         self.show.Show(False)
         # 天气类型图形显示 测试用
 
-        self.basic_data_f1 = wx.TextCtrl(self.panel, 6, pos=(180, 30), size=(170, 120),
+        self.basic_data_f1 = wx.TextCtrl(self.panel, 6, pos=(180, 30), size=(170, 130),
                                          style=(wx.TE_READONLY | wx.TE_MULTILINE))
         self.basic_data_f1.Show(False)
-        self.basic_data_f2 = wx.TextCtrl(self.panel, 6, pos=(380, 30), size=(170, 120),
+        self.basic_data_f2 = wx.TextCtrl(self.panel, 6, pos=(380, 30), size=(170, 130),
                                          style=(wx.TE_READONLY | wx.TE_MULTILINE))
         self.basic_data_f2.Show(False)
-        self.basic_data_f3 = wx.TextCtrl(self.panel, 6, pos=(580, 30), size=(170, 120),
+        self.basic_data_f3 = wx.TextCtrl(self.panel, 6, pos=(580, 30), size=(170, 130),
                                          style=(wx.TE_READONLY | wx.TE_MULTILINE))
         self.basic_data_f3.Show(False)
-        self.basic_data_f4 = wx.TextCtrl(self.panel, 6, pos=(780, 30), size=(170, 120),
+        self.basic_data_f4 = wx.TextCtrl(self.panel, 6, pos=(780, 30), size=(170, 130),
                                          style=(wx.TE_READONLY | wx.TE_MULTILINE))
         self.basic_data_f4.Show(False)
         # 未来天气所显示的四天情况，默认关闭
@@ -474,7 +478,9 @@ class MainWindow:
         self.basic_data_f4.Show(True)
         # 打开未来天气的各个信息框
 
-        self.basic_data_f1.AppendText('{} {}的天气： '.format(self.info.city_name, self.info.forecast[1]) + '\n')
+        self.basic_data_f1.AppendText('{}{}号的天气： '.format(
+            self.info.city_name, re.sub('\\D+', '', self.info.forecast[1])) + '\n')
+        self.basic_data_f1.AppendText(self.info.forecast[1][-3:] + '\n')
         self.basic_data_f1.AppendText('风向： ' + self.info.forecast[5] + '\n')
         self.basic_data_f1.AppendText('风力： ' + self.info.forecast[9] + '\n')
         self.basic_data_f1.AppendText('最高温度： ' + self.info.forecast[3].replace('高温 ', '') + '\n')
@@ -482,7 +488,9 @@ class MainWindow:
         self.basic_data_f1.AppendText('天气类型： ' + self.info.forecast[11] + '\n')
         # 显示未来第一天的基本信息
 
-        self.basic_data_f2.AppendText('{} {}的天气： '.format(self.info.city_name, self.info.forecast[13]) + '\n')
+        self.basic_data_f2.AppendText('{}{}号的天气： '.format(
+            self.info.city_name, re.sub('\\D+', '', self.info.forecast[13])) + '\n')
+        self.basic_data_f2.AppendText(self.info.forecast[13][-3:] + '\n')
         self.basic_data_f2.AppendText('风向： ' + self.info.forecast[17] + '\n')
         self.basic_data_f2.AppendText('风力： ' + self.info.forecast[21] + '\n')
         self.basic_data_f2.AppendText('最高温度： ' + self.info.forecast[15].replace('高温 ', '') + '\n')
@@ -490,7 +498,9 @@ class MainWindow:
         self.basic_data_f2.AppendText('天气类型： ' + self.info.forecast[23] + '\n')
         # 显示未来第二天的基本信息
 
-        self.basic_data_f3.AppendText('{} {}的天气： '.format(self.info.city_name, self.info.forecast[25]) + '\n')
+        self.basic_data_f3.AppendText('{}{}号的天气： '.format(
+            self.info.city_name, re.sub('\\D+', '', self.info.forecast[25])) + '\n')
+        self.basic_data_f3.AppendText(self.info.forecast[25][-3:] + '\n')
         self.basic_data_f3.AppendText('风向： ' + self.info.forecast[29] + '\n')
         self.basic_data_f3.AppendText('风力： ' + self.info.forecast[33] + '\n')
         self.basic_data_f3.AppendText('最高温度： ' + self.info.forecast[27].replace('高温 ', '') + '\n')
@@ -498,7 +508,9 @@ class MainWindow:
         self.basic_data_f3.AppendText('天气类型： ' + self.info.forecast[35] + '\n')
         # 显示未来第三天的基本信息
 
-        self.basic_data_f4.AppendText('{} {}的天气： '.format(self.info.city_name, self.info.forecast[37]) + '\n')
+        self.basic_data_f4.AppendText('{}{}号的天气： '.format(
+            self.info.city_name, re.sub('\\D+', '', self.info.forecast[37])) + '\n')
+        self.basic_data_f4.AppendText(self.info.forecast[37][-3:] + '\n')
         self.basic_data_f4.AppendText('风向： ' + self.info.forecast[41] + '\n')
         self.basic_data_f4.AppendText('风力： ' + self.info.forecast[45] + '\n')
         self.basic_data_f4.AppendText('最高温度： ' + self.info.forecast[39].replace('高温 ', '') + '\n')
